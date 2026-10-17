@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="ms"><head><meta charset="utf-8"><title>Misi Baca: Kebersihan Diri</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#EAF3F8;--card:#fff;--tx:#1d2733;--nv:#1F3A5F;--tl:#2A9D8F;--gd:#E9C46A;--ok:#1b7f4b;--okb:#d8f3e4;--no:#b3261e;--nob:#fde4e1;--bd:#c5d0da;--sel:#fff3c4;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1823;--card:#1c2735;--tx:#e8eef5;--nv:#8fb4e3;--tl:#3dbdae;--ok:#6fdc9f;--okb:#17382a;--no:#ff8f86;--nob:#3d1c19;--bd:#3a4d63;--sel:#4a4220;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1823;--card:#1c2735;--tx:#e8eef5;--nv:#8fb4e3;--tl:#3dbdae;--ok:#6fdc9f;--okb:#17382a;--no:#ff8f86;--nob:#3d1c19;--bd:#3a4d63;--sel:#4a4220;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:inherit}body{margin:0;background:var(--bg);color:var(--tx);font-family:Calibri,Carlito,"Segoe UI",Arial,sans-serif;font-size:18px}
+main{max-width:720px;margin:0 auto;padding:14px}h1{color:var(--nv);font-size:26px;margin:4px 0}h2{color:var(--nv);font-size:20px;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;margin:10px 0}
+.hud{display:flex;justify-content:space-between;font-weight:bold;color:var(--nv);gap:8px}.bar{height:10px;background:var(--bd);border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--tl);transition:width .4s}
+button{font:inherit;font-weight:bold;border:0;border-radius:12px;padding:12px 16px;min-height:48px;cursor:pointer;background:var(--tl);color:#08201d}
+button.k{background:var(--nv);color:var(--bg)}button.g{background:transparent;border:2px solid var(--bd);color:var(--tx)}.full{width:100%;margin-top:10px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--tx);border:2px solid var(--bd);margin:8px 0}.opt.ok{background:var(--okb);border-color:var(--ok)}.opt.no{background:var(--nob);border-color:var(--no)}
+.txt{line-height:1.9;font-size:20px}.txt p{margin:0 0 12px}.s{cursor:pointer;border-radius:6px;padding:1px 2px}.s:hover{background:var(--sel)}.s.on{background:var(--gd);color:#111}
+.tag{display:inline-block;background:var(--sel);border-radius:8px;padding:2px 10px;font-size:15px;font-weight:bold;margin-bottom:6px}
+textarea{width:100%;font:inherit;font-size:19px;padding:12px;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--tx);min-height:90px}
+.fb{padding:12px;border-radius:10px;margin-top:10px}.fb.ok{background:var(--okb);color:var(--ok)}.fb.no{background:var(--nob);color:var(--no)}
+.big{font-size:56px;text-align:center}.sm{font-size:15px;opacity:.85}p{margin:6px 0}details{margin-top:12px}summary{cursor:pointer;font-weight:bold;color:var(--nv)}
+.cf{position:fixed;top:-30px;font-size:26px;z-index:60;pointer-events:none;animation:fall 1.8s ease-in forwards}@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+</style></head><body><main><h1>Misi Baca: Kebersihan Diri 📖</h1><div id="app" aria-live="polite"></div></main>
+<script>
+const P=[["Amin ialah murid Tahun 3 di SK Rajang.","Dia suka bermain bola di padang bersama kawan-kawannya."],["Setiap pagi, Amin mandi dan memberus gigi.","Dia memakai baju yang bersih ke sekolah."],["Sebelum makan, Amin mencuci tangan dengan sabun.","Cikgu Aminah berkata bahawa tangan yang kotor mempunyai banyak kuman."],["Pada hujung minggu, Amin memotong kuku dan mencuci rambut.","Badannya terasa segar dan selesa."],["Amin berasa gembira kerana dia sihat dan bersih.","Dia mahu semua kawannya menjaga kebersihan diri."]];
+const Q=[
+["Kosa kata","Apakah maksud “kuman”?",["Benda yang sangat kecil dan boleh menyebabkan penyakit","Sejenis makanan","Alat untuk mandi"],0],
+["Kosa kata","Apakah maksud “segar”?",["Rasa penat","Rasa sihat dan selesa","Rasa takut"],1],
+["Kosa kata","Apakah maksud “kebersihan”?",["Keadaan yang bersih","Keadaan yang gelap","Keadaan yang bising"],0],
+["Kosa kata","Apakah maksud “selesa”?",["Tidak senang","Rasa senang dan tenang","Sangat lapar"],1],
+["Soalan bertumpu","Di manakah Amin bersekolah?",["SK Rajang","SK Kuching","Sungai Rajang"],0],
+["Soalan bertumpu","Apakah yang Amin lakukan sebelum makan?",["Memberus gigi","Mencuci tangan dengan sabun","Memotong kuku"],1],
+["Soalan bertumpu","Siapakah yang berkata tangan yang kotor mempunyai banyak kuman?",["Mei Ling","Amin","Cikgu Aminah"],2],
+["Soalan bertumpu","Bilakah Amin memotong kuku?",["Pada hujung minggu","Setiap pagi","Sebelum makan"],0],
+["Idea utama","Apakah idea utama perenggan 3?",["Amin bermain bola","Amin mencuci tangan sebelum makan","Amin memotong kuku"],1],
+["Idea utama","Apakah idea utama keseluruhan cerita ini?",["Amin menjaga kebersihan dirinya setiap hari","Amin suka bermain bola","Cikgu Aminah mengajar di kelas"],0]];
+const B=[{q:"Mengapakah kita perlu menjaga kebersihan diri?",m:"Kita perlu menjaga kebersihan diri supaya kita sihat dan tidak diserang kuman."},{q:"Nyatakan satu amalan kebersihan diri yang kamu lakukan setiap hari.",m:"Saya memberus gigi sebelum tidur."}];
+const app=document.getElementById("app");const S={ph:"mula",i:0,sc:0,tr:0,ans:false,hl:-1};
+const all=P.flat();let AC;
+function beep(f,d,t){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t||"sine";o.frequency.value=f;g.gain.value=.12;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
+const yay=()=>[523,659,784].forEach((f,k)=>setTimeout(()=>beep(f,.15),k*110)),oops=()=>beep(180,.3,"square");
+function conf(){const e=["🎉","⭐","✨","🧼","🌟"];for(let k=0;k<20;k++){const s=document.createElement("span");s.className="cf";s.textContent=e[k%5];s.style.left=Math.random()*95+"vw";s.style.animationDelay=Math.random()*.4+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),2400)}}
+function say(t,cb){try{if(!window.speechSynthesis){setTimeout(cb||(()=>{}),2200);return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="ms-MY";u.rate=.8;u.onend=cb||null;u.onerror=cb||null;speechSynthesis.speak(u)}catch(e){if(cb)cb()}}
+let stop=false;function hlSet(n){S.hl=n;document.querySelectorAll(".s").forEach(e=>e.classList.toggle("on",+e.dataset.n===n))}
+function readAll(n){if(n===0)stop=false;if(stop||n>=all.length){hlSet(-1);return}hlSet(n);say(all[n],()=>readAll(n+1))}
+function passage(){let n=0;return '<div class="txt">'+P.map(p=>'<p>'+p.map(s=>'<span class="s" data-n="'+(n++)+'">'+s+'</span>').join(" ")+'</p>').join("")+'</div>'}
+const tot=Q.length+B.length;
+function hud(){return '<div class="hud"><span>'+(S.ph==="q"?Q[S.i][0]+" "+(S.i+1)+"/"+Q.length:"Soalan bercapah "+(S.i+1)+"/"+B.length)+'</span><span>⭐ '+S.sc+'</span></div><div class="bar"><i style="width:'+Math.round((S.ph==="q"?S.i:Q.length+S.i)/tot*100)+'%"></i></div>'}
+function render(){
+if(S.ph==="mula"){app.innerHTML='<div class="card"><div class="big">🧼</div><h2>Amin Sihat dan Bersih</h2><p>Baca cerita ini. Sentuh mana-mana ayat untuk mendengarnya, atau tekan “Baca Bersama”.</p>'+passage()+'<div style="display:flex;gap:8px;margin-top:8px"><button class="k" onclick="readAll(0)">🔊 Baca Bersama</button><button class="g" onclick="stop=true;speechSynthesis&&speechSynthesis.cancel();hlSet(-1)">⏹ Henti</button></div><p class="sm">Selepas membaca, jawab soalan tentang kosa kata, isi tersurat, idea utama dan pendapat anda.</p><button class="k full" onclick="stop=true;try{speechSynthesis.cancel()}catch(e){}go()">Saya Sudah Baca – Mula Soalan</button></div>';return}
+if(S.ph==="q"){const q=Q[S.i];app.innerHTML=hud()+'<div class="card"><span class="tag">'+q[0]+'</span><h2>'+q[1]+'</h2><div id="o">'+q[2].map((o,k)=>'<button class="opt" onclick="pick('+k+')">'+o+'</button>').join("")+'</div><div id="fb"></div><details><summary>📖 Baca semula teks</summary>'+passage()+'</details></div>';return}
+if(S.ph==="b"){const b=B[S.i];app.innerHTML=hud()+'<div class="card"><span class="tag">Soalan bercapah</span><h2>'+b.q+'</h2><p class="sm">Tulis jawapan anda dalam satu ayat lengkap.</p><textarea id="ta" '+(S.ans?"disabled":"")+' placeholder="Taip jawapan anda…">'+(window._v||"")+'</textarea><div id="fb"></div>'+(S.ans?'<button class="k full" onclick="nb()">'+(S.i<B.length-1?"Seterusnya":"Lihat Markah")+'</button>':'<button class="k full" onclick="cb()">Semak Jawapan</button>')+'</div>';return}
+const mx=Q.length*10+B.length*10;app.innerHTML='<div class="card" style="text-align:center"><div class="big">'+(S.sc>=mx*.8?"🏆":"🌟")+'</div><h2>Tamat! Markah: '+S.sc+' / '+mx+'</h2><p>'+(S.sc>=mx*.8?"Cemerlang! Anda pembaca yang baik.":"Bagus! Baca semula cerita dan cuba lagi.")+'</p><button class="k full" onclick="Object.assign(S,{ph:\'mula\',i:0,sc:0});render()">Main Semula</button></div>'}
+function go(){Object.assign(S,{ph:"q",i:0,sc:0,tr:0,ans:false});render()}
+function pick(k){if(S.ans)return;const q=Q[S.i],bs=document.querySelectorAll("#o .opt");S.tr++;
+if(k===q[3]){S.ans=true;const p=S.tr===1?10:5;S.sc+=p;bs[k].classList.add("ok");yay();conf();document.getElementById("fb").innerHTML='<div class="fb ok">Betul! +'+p+' mata</div><button class="k full" onclick="nq()">Seterusnya</button>'}
+else{bs[k].classList.add("no");bs[k].disabled=true;oops();document.getElementById("fb").innerHTML='<div class="fb no">Belum tepat. Baca semula teks dan cuba lagi.</div>'}}
+function nq(){S.i++;S.tr=0;S.ans=false;if(S.i>=Q.length){S.ph="b";S.i=0}render()}
+function cb(){const v=document.getElementById("ta").value.trim();window._v=v;const w=v.split(/\s+/).filter(Boolean).length;
+const c=[w>=4,/^[A-Z]/.test(v),/[.!?]$/.test(v)];const ok=c.every(Boolean);
+if(!ok){oops();document.getElementById("fb").innerHTML='<div class="fb no">'+(c[0]?"✅":"❌")+' Sekurang-kurangnya 4 perkataan<br>'+(c[1]?"✅":"❌")+' Bermula dengan huruf besar<br>'+(c[2]?"✅":"❌")+' Berakhir dengan tanda baca</div>';return}
+S.ans=true;S.sc+=10;yay();conf();render();document.getElementById("fb").innerHTML='<div class="fb ok">Bagus! +10 mata<br><span class="sm">Contoh jawapan: '+B[S.i].m+' (jawapan anda juga boleh betul – minta guru menyemaknya.)</span></div>'}
+function nb(){window._v="";S.i++;S.ans=false;if(S.i>=B.length){S.ph="tamat";conf()}render()}
+document.addEventListener("click",e=>{const s=e.target.closest(".s");if(s){stop=true;hlSet(+s.dataset.n);say(all[+s.dataset.n],()=>hlSet(-1))}});
+render();
+</script></body></html>
